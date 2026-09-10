@@ -44,4 +44,4 @@ COPY --from=builder /app/prisma ./prisma
 ENV NODE_ENV=production
 
 # Run migrations and start the bot
-CMD ["sh", "-c", "npx prisma migrate deploy && npm run start"]
+CMD ["sh", "-c", "npx prisma db push --skip-generate --accept-data-loss && npm run start"]
