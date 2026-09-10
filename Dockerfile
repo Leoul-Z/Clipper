@@ -1,6 +1,9 @@
 # Use Node.js 20 Alpine as base image
 FROM node:20-alpine AS builder
 
+# Install OpenSSL for Prisma
+RUN apk add --no-cache openssl
+
 WORKDIR /app
 
 # Copy package files
@@ -22,6 +25,9 @@ RUN npm run build
 
 # Production stage
 FROM node:20-alpine
+
+# Install OpenSSL for Prisma in the final stage too
+RUN apk add --no-cache openssl
 
 WORKDIR /app
 
