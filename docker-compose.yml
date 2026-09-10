@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: clipper-db
+    restart: always
+    environment:
+      POSTGRES_USER: clipper
+      POSTGRES_PASSWORD: password123
+      POSTGRES_DB: clipper_bot
+    ports:
+      - '5432:5432'
+    volumes:
+      - clipper-db-data:/var/lib/postgresql/data
+
+  bot:
+    build: .
+    container_name: clipper-bot
+    restart: always
+    environment:
+      - DATABASE_URL=postgresql://clipper:password123@db:5432/clipper_bot?schema=public
+      - BOT_TOKEN=${BOT_TOKEN}
+      - ADMIN_CHAT_ID=${ADMIN_CHAT_ID}
+    depends_on:
+      - db
+
+volumes:
+  clipper-db-data:
