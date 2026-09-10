@@ -71,5 +71,16 @@ bot.api.setMyCommands([
   { command: "setvideos", description: "Admin: Set user video count" },
 ], { scope: { type: "chat", chat_id: env.ADMIN_CHAT_ID } }).catch(console.error);
 
+import http from "http";
+
 console.log("Starting bot...");
 bot.start();
+
+// Dummy HTTP server for Render Web Service port binding
+const port = process.env.PORT || 3000;
+http.createServer((req, res) => {
+  res.writeHead(200, { 'Content-Type': 'text/plain' });
+  res.end('Bot is running!\n');
+}).listen(port, () => {
+  console.log(`Dummy web server listening on port ${port}`);
+});
